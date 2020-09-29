@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>代码生成器</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text" th:href="@{/css/fontawesome-free/css/all.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminlte.min.css}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  </head>
+  <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+
+      <div th:include="navbar"></div>
+
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item active">代码生成</li>
+                </ol>
+              </div>
+            </div>
+          </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="form-group">
+                      <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+                      <div class="input-group row">
+                        <div class="col-xs-4" style="margin-right: 30px">
+                          <input type="text" class="form-control" id="exampleInputAmount" placeholder="表名">
+                        </div>
+                        <div class="col-xs-3"  style="margin-right: 30px">
+                          <button class="btn btn-default">查询</button>
+                        </div>
+                        <div class="col-xs-3">
+                          <button class="btn btn-primary" id="generator">生成代码</button>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>表名</th>
+                        <th>Engine</th>
+                        <th>表备注</th>
+                        <th>创建时间</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="table :${page.list}">
+                        <th><input type="checkbox" class="select"></th>
+                        <td th:text="${table.tableName}" name="tableName">Trident</td>
+                        <td th:text="${table.engine}">Internet
+                          Explorer 4.0
+                        </td>
+                        <td th:text="${table.tableComment}">Win 95+</td>
+                        <td th:text="${table.createTime}"> 4</td>
+                      </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+                <ul class="pager" style="float: right; margin-right: 20%">
+                  <li th:if="${page.hasPre}" style="display:inline; ">
+                    <a th:href="@{'/sys/generator/list?page='+${page.currentPage - 1}+'&limit=10'}">上一页</a>
+                  </li>
+                  <span> 共[[${page.currentPage}]]/[[${page.totalPage}]]页</span>
+
+                  <li th:if="${page.hasNext}" style="display:inline;">
+                    <a th:href="@{'/sys/generator/list?page='+${page.currentPage + 1}+'&limit=10'}">下一页</a>
+                  </li>
+
+
+                </ul>
+
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+      <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+          <b>Version</b> 3.0.5
+        </div>
+        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+        reserved.
+      </footer>
+
+      <!-- Control Sidebar -->
+      <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+      </aside>
+      <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- Bootstrap 4 -->
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script type="text/javascript" th:src="@{/js/bootstrap/js/adminlte.min.js}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script th:src="@{/js/demo.js}"></script>
+    <!-- page script -->
+    <script>
+        $("#selectAll").click(function () {
+            if ($(this).prop('checked')) {
+                $(".select").each(function () {
+                    $(this).prop("checked", true);
+                })
+            } else {
+                $(".select").each(function () {
+                    $(this).prop("checked", false);
+                })
+            }
+        })
+
+      $("#generator").click(function () {
+          var select = [];
+          $(".select").each(function () {
+              if ($(this).prop('checked'))  {
+                  select.push($(this).parent("th").parent("tr").children("td").get(0).innerText)
+              }
+          })
+          // $.ajax({
+          //     type: 'GET',
+          //     url: '/sys/generator/code',
+          //     data: {tables: select.join(",")},
+          //     dataType: 'JSON'
+          // })
+
+          location.href = "/sys/generator/code?tables=" + select.join();
+
+      })
+    </script>
+  </body>
+</html>
