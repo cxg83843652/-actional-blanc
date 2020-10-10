@@ -1,0 +1,62 @@
+package ${package}.mapper;
+
+import java.util.List;
+import ${package}.entity.${className}Entity;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Mapper
+{
+    /**
+     * 查询${functionName}
+     *
+     * @param ${pkColumn.javaField} ${functionName}ID
+     * @return ${functionName}
+     */
+    public ${ClassName} select${ClassName}ById(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 查询${functionName}列表
+     *
+     * @param ${className} ${functionName}
+     * @return ${functionName}集合
+     */
+    public List<${ClassName}> queryList(${className} ${className});
+
+    /**
+     * 新增
+     *
+     * @param ${className} ${classname}
+     * @return 结果
+     */
+    public int save(${className}Entity ${classname});
+
+    /**
+     * 修改
+     *
+     * @param ${className} ${classname}
+     * @return 结果
+     */
+    public int update(${className}Entity ${classname});
+
+    /**
+     * 删除
+     *
+     * @param ${pk.attrname} ID
+     * @return 结果
+     */
+    public int delete(${pk.attrType} ${pk.attrname});
+
+    /**
+     * 批量删除
+     *
+     * @param ${pk.attrname}s 需要删除的数据ID
+     * @return 结果
+     */
+    public int deleteBatch(${pk.attrType}[] ${pk.attrname}s);
+}

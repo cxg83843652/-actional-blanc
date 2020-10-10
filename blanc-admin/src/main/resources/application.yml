@@ -1,0 +1,9 @@
+jwt:
+  secret: fndosaho
+  expiration: 3600000
+  header: JWTHeaderName
+spring:
+  profiles:
+    include: dev
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml

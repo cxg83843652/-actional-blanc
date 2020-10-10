@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    password: root123456
+    username: root
+    url: jdbc:mysql://192.168.66.201:3306/actional_sun?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    mode: LEGACYHTML5
+  mvc:
+    favicon:
+      enabled: false
+mybatis-plus:
+  mapperLocations: classpath:mapper/**/*.xml
+server:
+  port: 8081
